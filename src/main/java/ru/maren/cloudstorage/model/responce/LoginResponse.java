@@ -1,6 +1,6 @@
 package ru.maren.cloudstorage.model.responce;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class LoginResponse {
     private String authToken;
 
-    @JsonGetter("auth-token")
+    @JsonProperty("auth-token")
     public String getAuthToken() {
         return authToken;
     }

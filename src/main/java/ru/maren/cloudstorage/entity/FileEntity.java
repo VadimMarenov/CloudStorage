@@ -8,13 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "files")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FileEntity {
     @Id
     private String fileName;
     private byte[] fileContent;
+    private Integer size;
 }

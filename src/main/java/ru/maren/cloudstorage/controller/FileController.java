@@ -1,53 +1,57 @@
 package ru.maren.cloudstorage.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.MediaType;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.maren.cloudstorage.model.request.EditedFileNameRequest;
 import ru.maren.cloudstorage.model.responce.ListFileResponse;
 import ru.maren.cloudstorage.service.AuthService;
 import ru.maren.cloudstorage.service.FileService;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin
 public class FileController {
     private final FileService fileService;
     private final AuthService authService;
 
     @PostMapping("/file")
-    public void uploadFile(@RequestHeader("auth-token") @NotBlank String authToken, @NotBlank String filename, @NotNull @RequestBody MultipartFile file) throws IOException {
+    ResponseEntity uploadFile(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String filename, MultipartFile file) throws IOException {
         authService.checkToken(authToken);
-        fileService.addFile(filename, file.getBytes());
+        byte[] fileContent = file.getBytes();
+        fileService.uploadFile(filename, fileContent);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/file")
-    public void deleteFile(@RequestHeader("auth-token") @NotBlank String authToken, @NotBlank String filename) {
+    public ResponseEntity deleteFile(@RequestHeader("auth-token") String authToken, String filename) {
         authService.checkToken(authToken);
         fileService.deleteFile(filename);
-
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/file", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public byte[] getFile(@RequestHeader("auth-token") @NotBlank String authToken, @NotBlank String filename) {
+    @GetMapping(value = "/file")
+    public ResponseEntity<Resource> getFile(@RequestHeader("auth-token") String authToken, String filename) {
         authService.checkToken(authToken);
-        return fileService.getFile(filename);
+        byte[] file = fileService.getFile(filename);
+        return ResponseEntity.ok().body(new ByteArrayResource(file));
     }
 
     @PutMapping("/file")
-    public void editFile(@RequestHeader("auth-token") @NotBlank String authToken, @NotBlank String filename, @RequestBody String editedFileName) {
+    public void editFile(@RequestHeader("auth-token") String authToken, String filename, @RequestBody EditedFileNameRequest newFilename) {
         authService.checkToken(authToken);
-        fileService.editFileName(filename, editedFileName);
+        fileService.editFileName(filename, newFilename.getFilename());
     }
 
     @GetMapping("/list")
-    public List<ListFileResponse> listFiles(@RequestHeader("auth-token") @NotBlank String authToken, @NotBlank int limit) {
+    public List<ListFileResponse> listFiles(@RequestHeader("auth-token") String authToken, @RequestParam("limit") Integer limit) {
         authService.checkToken(authToken);
-        return fileService.listFiles(limit);
+        return fileService.getAllFiles(limit);
     }
 }

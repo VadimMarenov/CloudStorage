@@ -11,4 +11,5 @@ import java.util.List;
 public interface FileRepository extends JpaRepository<FileEntity, String> {
     @Query(value = "SELECT * FROM files LIMIT :limit", nativeQuery = true)
     List<FileEntity> getFiles(int limit);
+
 }

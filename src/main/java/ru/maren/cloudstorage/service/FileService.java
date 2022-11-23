@@ -3,6 +3,7 @@ package ru.maren.cloudstorage.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.maren.cloudstorage.entity.FileEntity;
+import ru.maren.cloudstorage.exception.FileNotFoundException;
 import ru.maren.cloudstorage.model.responce.ListFileResponse;
 import ru.maren.cloudstorage.repository.FileRepository;
 
@@ -14,8 +15,8 @@ import java.util.stream.Collectors;
 public class FileService {
     private final FileRepository fileRepository;
 
-    public void addFile(String filename, byte[] fileContent) {
-        fileRepository.save(new FileEntity(filename, fileContent));
+    public void uploadFile(String filename, byte[] fileContent) {
+        fileRepository.save(new FileEntity(filename, fileContent, fileContent.length));
     }
 
     public void deleteFile(String filename) {
@@ -34,22 +35,22 @@ public class FileService {
         checkFileExist(filename);
         FileEntity file = fileRepository.findById(filename)
                 .orElseThrow(() -> new RuntimeException("File " + filename + " not found"));
-        FileEntity editedFile = new FileEntity(editedFileName, file.getFileContent());
+        FileEntity editedFile = new FileEntity(editedFileName, file.getFileContent(), file.getSize());
         fileRepository.save(editedFile);
         fileRepository.delete(file);
     }
 
-    private void checkFileExist(String filename) {
-        if (!fileRepository.existsById(filename)) {
-            throw new RuntimeException("File " + filename + " not found");
-        }
-    }
-
-    public List<ListFileResponse> listFiles(int limit) {
+    public List<ListFileResponse> getAllFiles(int limit) {
         final List<FileEntity> files = fileRepository.getFiles(limit);
         return files.stream()
-                .map(file -> new ListFileResponse(file.getFileName(), file.getFileContent().length))
+                .map(file -> new ListFileResponse(file.getFileName(), file.getSize()))
                 .collect(Collectors.toList());
+    }
+
+    private void checkFileExist(String filename) {
+        if (!fileRepository.existsById(filename)) {
+            throw new FileNotFoundException("File " + filename + " not found");
+        }
     }
 
 }

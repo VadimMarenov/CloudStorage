@@ -8,11 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "tokens")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthTokenEntity {
     @Id
     private String token;

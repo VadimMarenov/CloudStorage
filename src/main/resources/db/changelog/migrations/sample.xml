@@ -6,6 +6,7 @@
         <createTable tableName="FILES">
             <column name="file_name" type="VARCHAR"/>
             <column name="file_content" type="BYTEA"/>
+            <column name="size" type="INT"/>
         </createTable>
         <addPrimaryKey columnNames="file_name" tableName="FILES"/>
         <addNotNullConstraint tableName="FILES" columnName="file_content"/>

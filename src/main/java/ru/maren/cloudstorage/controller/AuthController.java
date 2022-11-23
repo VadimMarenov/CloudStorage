@@ -14,7 +14,7 @@ import javax.validation.Valid;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping
+    @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest loginInRequest) {
         return authService.login(loginInRequest);
     }
@@ -23,4 +23,5 @@ public class AuthController {
     public void logout(@RequestHeader("auth-token") AuthTokenEntity authToken) {
         authService.logout(authToken);
     }
+
 }

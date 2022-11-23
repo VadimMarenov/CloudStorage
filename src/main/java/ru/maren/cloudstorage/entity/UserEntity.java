@@ -8,11 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
     @Id
     private String login;
