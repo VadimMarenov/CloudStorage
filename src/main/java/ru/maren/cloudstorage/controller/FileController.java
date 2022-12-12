@@ -24,34 +24,39 @@ public class FileController {
     @PostMapping("/file")
     ResponseEntity uploadFile(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String filename, MultipartFile file) throws IOException {
         authService.checkToken(authToken);
+        String authTokenWithoutBearer = authService.separateToken(authToken);
         byte[] fileContent = file.getBytes();
-        fileService.uploadFile(filename, fileContent);
+        fileService.uploadFile(authTokenWithoutBearer, filename, fileContent);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/file")
     public ResponseEntity deleteFile(@RequestHeader("auth-token") String authToken, String filename) {
         authService.checkToken(authToken);
-        fileService.deleteFile(filename);
+        String authTokenWithoutBearer = authService.separateToken(authToken);
+        fileService.deleteFile(authTokenWithoutBearer, filename);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping(value = "/file")
     public ResponseEntity<Resource> getFile(@RequestHeader("auth-token") String authToken, String filename) {
         authService.checkToken(authToken);
-        byte[] file = fileService.getFile(filename);
+        String authTokenWithoutBearer = authService.separateToken(authToken);
+        byte[] file = fileService.getFile(authTokenWithoutBearer, filename);
         return ResponseEntity.ok().body(new ByteArrayResource(file));
     }
 
     @PutMapping("/file")
     public void editFile(@RequestHeader("auth-token") String authToken, String filename, @RequestBody EditedFileNameRequest newFilename) {
         authService.checkToken(authToken);
-        fileService.editFileName(filename, newFilename.getFilename());
+        String authTokenWithoutBearer = authService.separateToken(authToken);
+        fileService.editFileName(authTokenWithoutBearer, filename, newFilename.getFilename());
     }
 
     @GetMapping("/list")
     public List<ListFileResponse> listFiles(@RequestHeader("auth-token") String authToken, @RequestParam("limit") Integer limit) {
+        String authTokenWithoutBearer = authService.separateToken(authToken);
         authService.checkToken(authToken);
-        return fileService.getAllFiles(limit);
+        return fileService.getAllFiles(authTokenWithoutBearer, limit);
     }
 }

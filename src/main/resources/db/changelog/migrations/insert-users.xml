@@ -11,9 +11,5 @@
             <column name="login" value="Anya"/>
             <column name="password" value="pass2"/>
         </insert>
-        <insert tableName="USERS">
-            <column name="login" value="Midav"/>
-            <column name="password" value="Pass"/>
-        </insert>
     </changeSet>
 </databaseChangeLog>

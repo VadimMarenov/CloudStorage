@@ -4,11 +4,13 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <changeSet author="marenov" id="1">
         <createTable tableName="FILES">
+            <column name="file_id" type="UUID"/>
             <column name="file_name" type="VARCHAR"/>
             <column name="file_content" type="BYTEA"/>
             <column name="size" type="INT"/>
+            <column name="login" type="VARCHAR"/>
         </createTable>
-        <addPrimaryKey columnNames="file_name" tableName="FILES"/>
+        <addPrimaryKey columnNames="file_id" tableName="FILES"/>
         <addNotNullConstraint tableName="FILES" columnName="file_content"/>
 
         <createTable tableName="USERS">
@@ -20,6 +22,7 @@
 
         <createTable tableName="TOKENS">
             <column name="token" type="VARCHAR"/>
+            <column name="login" type="VARCHAR"/>
         </createTable>
         <addPrimaryKey columnNames="token" tableName="TOKENS"/>
     </changeSet>

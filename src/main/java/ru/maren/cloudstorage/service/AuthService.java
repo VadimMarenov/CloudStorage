@@ -32,7 +32,7 @@ public class AuthService {
             throw new BadCredentialException("Incorrect password for user " + loginFromRequest);
         }
         final String authToken = String.valueOf(random.nextLong());
-        authTokenRepository.save(new AuthTokenEntity(authToken));
+        authTokenRepository.save(new AuthTokenEntity(authToken, loginFromRequest));
         return new LoginResponse(authToken);
     }
 
@@ -46,4 +46,13 @@ public class AuthService {
             throw new AuthorizationException("User is not authorized");
         }
     }
+
+    public String separateToken(String authToken) {
+        String authTokenWithoutBearer = authToken;
+        if (authToken.startsWith("Bearer ")) {
+            authTokenWithoutBearer = authToken.split(" ")[1];
+        }
+        return authTokenWithoutBearer;
+    }
 }
+

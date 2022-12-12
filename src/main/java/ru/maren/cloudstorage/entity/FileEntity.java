@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "files")
@@ -15,7 +17,10 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class FileEntity {
     @Id
+    private UUID fileId;
     private String fileName;
     private byte[] fileContent;
     private Integer size;
+    private String login;
+
 }

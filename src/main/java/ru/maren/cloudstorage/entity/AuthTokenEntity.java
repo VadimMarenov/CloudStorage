@@ -16,5 +16,6 @@ import javax.persistence.Table;
 public class AuthTokenEntity {
     @Id
     private String token;
+    private String login;
 
 }

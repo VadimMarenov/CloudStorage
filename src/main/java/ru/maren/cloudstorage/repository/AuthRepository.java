@@ -6,4 +6,5 @@ import ru.maren.cloudstorage.entity.UserEntity;
 
 @Repository
 public interface AuthRepository extends JpaRepository<UserEntity, String> {
+
 }

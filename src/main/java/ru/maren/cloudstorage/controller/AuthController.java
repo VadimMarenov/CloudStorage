@@ -23,5 +23,4 @@ public class AuthController {
     public void logout(@RequestHeader("auth-token") AuthTokenEntity authToken) {
         authService.logout(authToken);
     }
-
 }
