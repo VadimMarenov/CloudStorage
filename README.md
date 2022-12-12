@@ -25,5 +25,17 @@
 2. Запустить docker-compose.yaml
 
 ## Тестовые данные
-1. login: Vadim, password: pass
-2. login: Anya, password: pass2
+1. login: testlogin@mail.ru, password: password
+2. login: secondlogin@mail.ru, password: password
+
+## Показ работы
+### Страница авторизации
+![](images/Auth.png)
+### Страница после авторизации
+![](images/Start.png)
+### Переименование
+![](images/Rename.png)
+### Скачивание
+![](images/Download.png)
+### Удаление
+![](images/Delete.png)

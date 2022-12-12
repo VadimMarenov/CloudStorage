@@ -4,12 +4,12 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
     <changeSet author="marenov" id="1">
         <insert tableName="USERS">
-            <column name="login" value="Vadim"/>
-            <column name="password" value="pass"/>
+            <column name="login" value="testlogin@mail.ru"/>
+            <column name="password" value="password"/>
         </insert>
         <insert tableName="USERS">
-            <column name="login" value="Anya"/>
-            <column name="password" value="pass2"/>
+            <column name="login" value="secondlogin@mail.ru"/>
+            <column name="password" value="password"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
